@@ -1,0 +1,5 @@
+server:
+  #¶Ë¿ÚºÅºÍÀ¹½ØµÄurl
+  port: 8080
+  servlet-path: /
+
