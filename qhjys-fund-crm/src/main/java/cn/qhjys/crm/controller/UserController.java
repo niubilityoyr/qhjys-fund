@@ -8,15 +8,10 @@ import cn.qhjys.crm.exception.MyException;
 import cn.qhjys.crm.service.UserService;
 import cn.qhjys.crm.utils.ResultVoUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -39,7 +34,7 @@ public class UserController {
 
     @ApiOperation(httpMethod = "POST", value = "新增用户")
     @RequestMapping(method = RequestMethod.POST)
-    public ResultVO save(@Valid UserQO user, BindingResult result){
+    public ResultVO save(@Valid @RequestBody UserQO user, BindingResult result){
         //先判断参数是否有误
         if(result.hasErrors()){
             throw new MyException(ResultEnum.PARAM_ERROR.getCode(),
