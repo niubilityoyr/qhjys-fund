@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * Create by 欧阳荣
- * 2018/5/24 21:34
+ * 自定义过滤器
  */
 @Component  //让spring扫描到就可以直接加入到spirng容器中了
 public class TimeFilter implements Filter{

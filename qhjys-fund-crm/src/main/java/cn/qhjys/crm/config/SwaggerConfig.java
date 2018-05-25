@@ -11,7 +11,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * @author oyr
- * @Description: ${todo}
+ * @Description: swagger配置文件
  * @date 2018/5/24 0024下午 6:02
  */
 @Configuration
@@ -30,9 +30,9 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("金钥匙新项目API")
-                .description("金钥匙官网 http://hwangfantasy.github.io/")
-                .termsOfServiceUrl("http://hwangfantasy.github.io/")
-                .contact("rong")
+                .description("rest ful风格API https://www.jysp2p.com/")
+                .termsOfServiceUrl("http://blog.csdn.net/saytime")
+                .contact("ouyangrong")  //这是创建人
                 .version("1.0.0")
                 .build();
     }

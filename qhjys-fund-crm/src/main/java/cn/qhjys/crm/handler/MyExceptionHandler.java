@@ -15,11 +15,11 @@ import javax.validation.ConstraintViolationException;
 
 /**
  * @author oyr
- * @Description: ${todo}
+ * @Description: 这是一个全局异常处理类
  * @date 2018/5/23 0023下午 1:56
  */
 @Slf4j
-@ControllerAdvice   //这是一个全局异常处理类
+@ControllerAdvice
 public class MyExceptionHandler {
 
     /**
@@ -52,6 +52,7 @@ public class MyExceptionHandler {
             resultVO = ResultVoUtil.error(ResultEnum.SERVER_ERROR.getCode(), ResultEnum.SERVER_ERROR.getMessage());
         }else{
             //未知异常
+            e.printStackTrace();
             log.error("未知错误 error:{}", e.getMessage());
             resultVO = ResultVoUtil.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMessage());
         }

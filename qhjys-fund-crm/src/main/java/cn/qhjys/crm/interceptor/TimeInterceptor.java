@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
- * Create by 欧阳荣
- * 2018/5/24 21:38
+ * 自定义拦截器
  */
 @Component  //不会自己加入拦截器中，需要配置
 public class TimeInterceptor implements HandlerInterceptor{

@@ -3,27 +3,41 @@ server:
   servlet-path: /
 
 spring:
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/qhjys
-    username: root
-    password: 123456
-    # 使用druid数据源
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    filters: stat
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
+    # 数据库
+    datasource:
+      name: test
+      url: jdbc:mysql://121.201.67.237/qhjys-p2p
+      username: root
+      password: jysp2p8QWJT!@#$
+      # 使用druid数据源
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      filters: stat
+      maxActive: 20
+      initialSize: 1
+      maxWait: 60000
+      minIdle: 1
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
 
+
+
+#mybatis配置
 mybatis:
-  mapper-locations: classpath:mapping/*.xml
-  type-aliases-package: com.winter.model
+  # 配置mapper的位置
+  mapper-locations: classpath:mappers/*.xml
+  # bean对象包全路径
+  type-aliases-package: cn.qhjys.crm.entity
+
+#pagehelper分页插件
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql

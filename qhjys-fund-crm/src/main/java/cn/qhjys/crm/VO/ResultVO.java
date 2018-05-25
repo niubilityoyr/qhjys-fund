@@ -16,7 +16,6 @@ public class ResultVO<T> implements Serializable{
     private static final long serialVersionUID = 3236329195874147801L;
 
     /** 错误码. */
-    @ApiModelProperty()
     private Integer code;
 
     /** 提示信息. */

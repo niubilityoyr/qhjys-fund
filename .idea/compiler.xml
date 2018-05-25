@@ -7,11 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="crm" />
+        <module name="mybatis-generator" />
         <module name="p2p" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="crm" target="1.8" />
+      <module name="mybatis-generator" target="1.8" />
+      <module name="mybatis-generator-demo" target="1.8" />
+      <module name="mybatis_generator" target="1.8" />
       <module name="p2p" target="1.8" />
     </bytecodeTargetLevel>
   </component>

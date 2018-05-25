@@ -6,7 +6,7 @@ import lombok.Getter;
 
 /**
  * @author oyr
- * @Description: ${todo}
+ * @Description: 自定义异常类
  * @date 2018/5/23 0023下午 1:50
  */
 @Getter
