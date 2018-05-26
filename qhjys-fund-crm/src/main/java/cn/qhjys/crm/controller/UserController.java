@@ -4,26 +4,23 @@ import cn.qhjys.crm.QO.UserQO;
 import cn.qhjys.crm.VO.ResultVO;
 import cn.qhjys.crm.enmus.ResultEnum;
 import cn.qhjys.crm.entity.CrmUser;
-import cn.qhjys.crm.entity.User;
 import cn.qhjys.crm.exception.MyException;
+import cn.qhjys.crm.group.GroupA;
 import cn.qhjys.crm.service.UserService;
 import cn.qhjys.crm.utils.ResultVoUtil;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.statement.select.First;
-import org.apache.ibatis.annotations.ResultMap;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -35,6 +32,7 @@ import javax.validation.constraints.NotNull;
 @Api(tags = "用户管理")
 @RequestMapping("/user")
 @RestController
+@Validated
 public class UserController {
 
     @Resource
@@ -43,7 +41,7 @@ public class UserController {
 
     @ApiOperation(httpMethod = "POST", value = "新增用户")
     @RequestMapping(method = RequestMethod.POST)
-    public ResultVO save(@Validated @RequestBody UserQO user, BindingResult result){
+    public ResultVO save(@Valid @RequestBody UserQO user, BindingResult result){
         //先判断参数是否有误
         if(result.hasErrors()){
             throw new MyException(ResultEnum.PARAM_ERROR.getCode(),
@@ -57,25 +55,25 @@ public class UserController {
 
 
     @ApiOperation(httpMethod = "DELETE", value = "删除用户")
-    @ApiImplicitParam(name="id", value = "用户ID", required = true, dataType = "Long", paramType = "path")
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResultVO delete(@PathVariable  Long id){
+    @ApiImplicitParam(name="id", value = "用户ID", required = true, dataType = "Long", paramType = "query")
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResultVO delete(@Min(value = 0, message = "用户id是大于0的") @NotNull(message="用户ID不能为空") Long id){
         service.delete(id);
         return ResultVoUtil.success();
     }
 
 
     @ApiOperation(httpMethod = "GET", value = "根据id查询用户信息")
-    @ApiImplicitParam(name="id", value = "用户ID", required = true, dataType = "Long", paramType = "path")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResultVO findById(@PathVariable Long id){
+    @ApiImplicitParam(name="id", value = "用户ID", required = true, dataType = "Long", paramType = "query")
+    @RequestMapping(method = RequestMethod.GET)
+    public ResultVO findById(@NotNull(message="用户ID不能为空") Long id){
         CrmUser user = service.findById(id);
         return ResultVoUtil.success(user);
     }
 
     @ApiOperation(httpMethod = "PUT", value = "修改用户信息")
     @RequestMapping(method = RequestMethod.PUT)
-    public ResultVO update(@Validated({First.class}) UserQO user, BindingResult result){
+    public ResultVO update(@Validated({GroupA.class}) UserQO user, BindingResult result){
         //先判断参数是否有误
         if(result.hasErrors()){
             throw new MyException(ResultEnum.PARAM_ERROR.getCode(),

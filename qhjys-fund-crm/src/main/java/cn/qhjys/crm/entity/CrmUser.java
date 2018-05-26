@@ -1,9 +1,8 @@
 package cn.qhjys.crm.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class CrmUser implements Serializable {
+public class CrmUser {
     private Long id;
 
     private String userName;
@@ -27,8 +26,6 @@ public class CrmUser implements Serializable {
     private Long p2pUserId;
 
     private String remark;
-
-    private static final long serialVersionUID = 1L;
 
     public Long getId() {
         return id;
@@ -124,28 +121,5 @@ public class CrmUser implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", userName=").append(userName);
-        sb.append(", userAccount=").append(userAccount);
-        sb.append(", userPassword=").append(userPassword);
-        sb.append(", deptId=").append(deptId);
-        sb.append(", serviceGroupId=").append(serviceGroupId);
-        sb.append(", workState=").append(workState);
-        sb.append(", inputTime=").append(inputTime);
-        sb.append(", delFlag=").append(delFlag);
-        sb.append(", p2pMobile=").append(p2pMobile);
-        sb.append(", p2pUserId=").append(p2pUserId);
-        sb.append(", remark=").append(remark);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
     }
 }

@@ -19,20 +19,22 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Resource
     private TimeInterceptor timeInterceptor;
 
+    /*
+    别开这个，不然404异常处理不进（返回不了json格式数据）
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        /*让swagger能正常的访问页面*/
+        *//*让swagger能正常的访问页面*//*
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("swagger-ui.html")
             .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
             .addResourceLocations("classpath:/META-INF/resources/webjars/");
         super.addResourceHandlers(registry);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //添加拦截器并指定拦截路径
         registry.addInterceptor(timeInterceptor).addPathPatterns("/*");
-    }
+    }*/
 }

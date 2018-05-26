@@ -1,22 +1,18 @@
 package cn.qhjys.crm.service;
 
 import cn.qhjys.crm.QO.UserQO;
-import cn.qhjys.crm.dao.CrmUserMapper;
 import cn.qhjys.crm.enmus.ResultEnum;
 import cn.qhjys.crm.entity.CrmUser;
-import cn.qhjys.crm.entity.User;
+import cn.qhjys.crm.entity.CrmUserExample;
 import cn.qhjys.crm.exception.MyException;
-import com.github.pagehelper.Page;
+import cn.qhjys.crm.mapper.CrmUserMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author oyr
@@ -51,12 +47,17 @@ public class UserService {
     public void update(UserQO user) {
         CrmUser crmUser = new CrmUser();
         BeanUtils.copyProperties(user, crmUser);
-        mapper.updateByPrimaryKey(crmUser);
+        //只有我输入过的字段才会改变
+        mapper.updateByPrimaryKeySelective(crmUser);
     }
 
     public PageInfo<CrmUser> findPage(int page, int pageSize) {
+        //设置分页
         PageHelper.startPage(page, pageSize);
-        List<CrmUser> list = mapper.selectAll();
+        //开始查询
+        CrmUserExample example = new CrmUserExample();
+        List<CrmUser> list = mapper.selectByExample(example);
+        //将数据封装到pageinfo中，PageInfo对象中有封装了分页的数据
         PageInfo<CrmUser> info = new PageInfo<>(list);
         return info;
     }

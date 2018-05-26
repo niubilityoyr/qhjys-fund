@@ -1,9 +1,9 @@
 package cn.qhjys.crm.QO;
 
+import cn.qhjys.crm.group.GroupA;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import net.sf.jsqlparser.statement.select.First;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UserQO {
 
-    @NotNull(message = "用户id不能为空", groups = {First.class})
+    @NotNull(message = "用户id不能为空", groups = {GroupA.class})
     private Long id;
 
     @ApiModelProperty(required = true, value = "用户名", dataType = "String")

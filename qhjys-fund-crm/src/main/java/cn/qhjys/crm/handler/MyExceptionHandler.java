@@ -5,12 +5,13 @@ import cn.qhjys.crm.enmus.ResultEnum;
 import cn.qhjys.crm.exception.MyException;
 import cn.qhjys.crm.utils.ResultVoUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.Set;
 
 
 /**
@@ -19,44 +20,60 @@ import javax.validation.ConstraintViolationException;
  * @date 2018/5/23 0023下午 1:56
  */
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class MyExceptionHandler {
+
+
+    /**
+     * 404处理
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = { NoHandlerFoundException.class })
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResultVO noHandlerFoundException(NoHandlerFoundException e) {
+        return ResultVoUtil.error(ResultEnum.URL_NOT_FIND.getCode(), ResultEnum.URL_NOT_FIND.getMessage());
+    }
+
+    /**
+     * 参数错误处理
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = { ConstraintViolationException.class })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResultVO unknownException(ConstraintViolationException e) {
+        //处理方法参数错误抛出的异常
+        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+        ConstraintViolation<?> v = null;
+        for (ConstraintViolation<?> violation : constraintViolations) {
+            //收集第一个异常信息就好了
+            v = violation;
+            break;
+        }
+        return ResultVoUtil.error(ResultEnum.PARAM_ERROR.getCode(), v.getMessage());
+    }
+
 
     /**
      * 指定处理MyException的异常
      * @param e
      * @return
-     */
-    @ExceptionHandler(MyException.class)
+     * */
+    @ExceptionHandler(value = MyException.class)
     @ResponseBody
     public ResultVO handle1(MyException e){
+        e.printStackTrace();
         return ResultVoUtil.error(e.getCode(), e.getMessage());
     }
 
-    /**
-     *处理400 500 异常等
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public ResultVO defaultErrorHandle(Exception e){
-        ResultVO resultVO = null;
-        if(e instanceof NoHandlerFoundException){
-            //404异常
-            log.error("404 error:{}", e.getMessage());
-            resultVO = ResultVoUtil.error(ResultEnum.URL_NOT_FIND.getCode(), ResultEnum.URL_NOT_FIND.getMessage());
-        }else if(e instanceof ConstraintViolationException){
-            //500异常
-            log.error("500 error:{}", e.getMessage());
-            resultVO = ResultVoUtil.error(ResultEnum.SERVER_ERROR.getCode(), ResultEnum.SERVER_ERROR.getMessage());
-        }else{
-            //未知异常
-            e.printStackTrace();
-            log.error("未知错误 error:{}", e.getMessage());
-            resultVO = ResultVoUtil.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMessage());
-        }
-        return resultVO;
+
+    @ExceptionHandler(value = { Exception.class })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResultVO unknownException(Exception e) {
+        //未知异常
+        log.error("600 error:{}", e.getMessage());
+        return ResultVoUtil.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMessage());
     }
 
 }
